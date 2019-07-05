@@ -71,5 +71,7 @@ public class Player extends Person{
     public void depositFunds(float funds){
         money += funds;
     }
+
+    public void withdrawalFunds(float amount){ money -= amount; }
 }
 

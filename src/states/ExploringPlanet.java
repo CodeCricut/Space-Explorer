@@ -17,7 +17,7 @@ public class ExploringPlanet extends State {
         TimeDelayer.delaySeconds();
 
 
-        int randomInt = random.nextInt(4);
+        int randomInt = random.nextInt(5);
         Game.setState(new Trading());
         switch (randomInt){
             case 0:
@@ -31,6 +31,9 @@ public class ExploringPlanet extends State {
                 break;
             case 3:
                 Game.setState(new Trading());
+                break;
+            case 4:
+                Game.setState(new Healing());
                 break;
         }
     }

@@ -86,14 +86,13 @@ public class Trading extends State {
                         System.out.println("You don't have that many items of that type.");
                     }
                     else {
+                        player.getInventory().useNumOfItem(input, numToSell);
+                        player.depositFunds(item.getWorth() * numToSell);
+                        trader.getInventory().addItems(item, numToSell);
+                        System.out.println("Sold " + numToSell + " " + input + "(s) to trader for " + item.getWorth() * numToSell + ".");
                         break;
                     }
                 }
-                player.getInventory().useNumOfItem(input, numToSell);
-                player.depositFunds(item.getWorth() * numToSell);
-                trader.getInventory().addItems(item, numToSell);
-                System.out.println("Sold " + numToSell + " " + input + "(s) to trader for " + item.getWorth() * numToSell + ".");
-                break;
             }
             else {
                 System.out.println("You do not have that item. Please try again.");
@@ -150,7 +149,7 @@ public class Trading extends State {
                     if (numToBuy < 0) {
                         System.out.println("Amount must be over 0.");
                         break;
-                    } else if (numToBuy < trader.getInventory().getNumOfItem(item)) {
+                    } else if (numToBuy > trader.getInventory().getNumOfItem(item)) {
                         System.out.println("The trader doesn't have that many items of that type.");
                         break;
                     } else {

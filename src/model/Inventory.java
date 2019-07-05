@@ -22,10 +22,12 @@ public class Inventory {
     }
 
     public int getNumOfItem(Item item){
-        if (!items.containsKey(item)){
-            return 0;
+        for (Item itemInInv : items.keySet()){
+            if (itemInInv.getName().equals(item.getName())){
+                return items.get(itemInInv);
+            }
         }
-        return items.get(item);
+        return 0;
     }
 
     public void listItems(){

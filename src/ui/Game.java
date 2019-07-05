@@ -27,7 +27,7 @@ public class Game {
     public static void initializeGame(){
         player = new Player();
         ship = new Ship();
-        state = new StartingGame();
+        state = new Debugging();
         planet = new Planet();
     }
 
