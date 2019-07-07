@@ -9,6 +9,7 @@ import java.util.Map;
 public class Inventory {
     private HashMap<Item, Integer> items = new HashMap<>(); //item name, quantity
 
+    //Modifiers
 
     public void addItems(Item item, int numToAdd){
         String itemName = item.getName();
@@ -20,6 +21,33 @@ public class Inventory {
         }
         items.put(item, numToAdd);
     }
+
+    public void useNumOfItem(Item item, int numToUse){
+        for (Map.Entry<Item, Integer> entry : items.entrySet()) {
+            if (item.getName().equals(entry.getKey().getName())) {
+                entry.setValue(entry.getValue() - numToUse);
+                cleanItems();
+                break;
+            }
+        }
+    }
+
+    public int useAllOfItem(Item item){
+        for (Item invItems : items.keySet()){
+            if (item.getName().equals(invItems.getName())){
+                int itemQuantity = items.get(invItems);
+                items.remove(invItems);
+                return itemQuantity;
+            }
+        }
+        return 0;
+    }
+
+    private void cleanItems(){
+        items.entrySet().removeIf(entries->entries.getValue() == 0);
+    }
+
+    //Getters/List/HasItem
 
     public int getNumOfItem(Item item){
         for (Item itemInInv : items.keySet()){
@@ -40,48 +68,11 @@ public class Inventory {
         }
     }
 
-    public void useOneItem(String itemName) {
-        useNumOfItem(itemName, 1);
-    }
-
-    public void useNumOfItem(String itemName, int numToUse){
-        Iterator<Map.Entry<Item, Integer>> iterator = items.entrySet().iterator();
-        while (iterator.hasNext()){
-            Map.Entry<Item, Integer> entry = iterator.next();
-            if (itemName.equals(entry.getKey().getName())){
-                entry.setValue(entry.getValue() - numToUse);
-                cleanItems();
-                break;
-            }
-        }
-    }
-
-    public boolean hasItem(String itemName){
-        for (Item item : items.keySet()){
-            if (item.getName().equals(itemName))
+    public boolean hasItem(Item item){
+        for (Item invItem : items.keySet()){
+            if (item.getName().equals(invItem.getName()))
                 return true;
         }
         return false;
-    }
-
-    public int useAllOfItem(String itemName){
-            for (Item invItems : items.keySet()){
-                if (itemName.equals(invItems.getName())){
-                    int itemQuantity = items.get(invItems);
-                    items.remove(invItems);
-                    return itemQuantity;
-                }
-            }
-        return 0;
-    }
-
-    public void cleanItems(){
-        Iterator<Map.Entry<Item, Integer>> iterator = items.entrySet().iterator();
-        while (iterator.hasNext()){
-            Map.Entry<Item, Integer> entry = iterator.next();
-            if (entry.getValue() == 0){
-                iterator.remove();
-            }
-        }
     }
 }

@@ -1,17 +1,24 @@
 package states.encounters;
 
+import exceptions.ItemAdapterNotAccountedException;
+import exceptions.NotEnoughItemsException;
 import exceptions.NotEnoughMoneyException;
-import model.utilities.Delimiter;
-import model.utilities.ItemAdapter;
+import model.Planet;
 import model.items.Item;
 import model.people.Player;
 import model.people.Trader;
+import model.utilities.Delimiter;
+import model.utilities.ItemAdapter;
 import model.utilities.TimeDelayer;
 import states.PlanetIdling;
 import states.State;
 import ui.Game;
 
 public class Trading extends State {
+
+    private Player player = Game.getPlayer();
+    private Trader trader = new Trader();
+
     @Override
     public void advance() {
         Delimiter.printCharDelimiter('$');
@@ -20,156 +27,150 @@ public class Trading extends State {
         Delimiter.printCharDelimiter('$');
     }
 
-    private void trade(){
+    //General Trading Methods
 
-        Trader trader = new Trader();
-        Player player = Game.getPlayer();
-
-        while(true){
-            Delimiter.printCharDelimiter('-');
-            System.out.println("Trader items:");
-            trader.getInventory().listItems();
-            Delimiter.printCharDelimiter('-');
-            TimeDelayer.delaySeconds();
-
-            System.out.println("Your items:");
-            System.out.println("Money | $" + player.getMoney());
-            player.getInventory().listItems();
-            Delimiter.printCharDelimiter('-');
-            TimeDelayer.delaySeconds();
-
-            System.out.println("\nHow would you like to proceed?");
-            System.out.println("1. Buy items");
-            System.out.println("2. Sell items");
-            System.out.println("3. Continue exploring");
-
-            String input = Game.askForUserInput("> ");
-            Delimiter.printEmtpyLines(2);
-
-            switch(input){
-                case "1":
-                    buyItems(trader);
-                    Delimiter.printCharDelimiter('$');
-                    Delimiter.printEmtpyLines(2);
-                    break;
-                case "2":
-                    sellItems(trader);
-                    Delimiter.printCharDelimiter('$');
-                    Delimiter.printEmtpyLines(2);
-                    break;
-                case "3":
-                    Game.setState(new PlanetIdling());
-                    Delimiter.printEmtpyLines(2);
-                    return;
-
-            }
+    private void trade() {
+        while (Trading.class.equals(Game.getState().getClass())) {
+            printInventories();
+            presentTradingOptions();
+            processTradingOptions();
         }
     }
 
-    private void sellItems(Trader trader) {
-        Player player = Game.getPlayer();
-        while (true){
-            System.out.println("Please type the name of the item you would like to sell, or 'Cancel' to cancel.");
-            String input = Game.askForUserInput("> ");
-            if (input.equals("Cancel")){
-                return;
-            }
-            else if (player.getInventory().hasItem(input)){
-                Item item = ItemAdapter.makeItem(input);
-                int numToSell;
-                while(true){
-                    numToSell = getNumberToTrade();
-                    if (numToSell < 0){
-                        System.out.println("Amount must be over 0.");
-                    }
-                    else if (numToSell > player.getInventory().getNumOfItem(item)){
-                        System.out.println("You don't have that many items of that type.");
-                    }
-                    else {
-                        player.getInventory().useNumOfItem(input, numToSell);
-                        player.depositFunds(item.getWorth() * numToSell);
-                        trader.getInventory().addItems(item, numToSell);
-                        System.out.println("Sold " + numToSell + " " + input + "(s) to trader for " + item.getWorth() * numToSell + ".");
-                        break;
-                    }
-                }
-            }
-            else {
-                System.out.println("You do not have that item. Please try again.");
-            }
-            TimeDelayer.delaySeconds();
+    private void printInventories() {
+        Delimiter.printCharDelimiter('-');
+        System.out.println("Trader inventory:");
+        trader.getInventory().listItems();
+        Delimiter.printCharDelimiter('-');
+
+        System.out.println("Player inventory:");
+        System.out.println("$" + player.getMoney());
+        player.getInventory().listItems();
+        Delimiter.printCharDelimiter('-');
+        TimeDelayer.delaySeconds();
+    }
+
+    private void presentTradingOptions() {
+        System.out.println("How would you like to proceed?");
+        System.out.println("1. Buy items");
+        System.out.println("2. Sell items");
+        System.out.println("3. Continue Exploring");
+    }
+
+    private void processTradingOptions() {
+        String tradingOption = Game.askForUserInput("> ");
+        switch (tradingOption){
+            case "1":
+                buyItems();
+                break;
+            case "2":
+                sellItems();
+                break;
+            case "3":
+                Game.setState(new PlanetIdling());
+                break;
+            default:
+                System.out.println("Not a valid option.");
         }
     }
 
-    private int getNumberToTrade() {
-        while (true) {
-            System.out.println("How many?");
-            String input = Game.askForUserInput("> ");
+    //Buying Methods
 
-            if (isInteger(input)){
-                return Integer.parseInt(input);
-            }
-            System.out.println("Not a valid number");
+    private void buyItems() {
+        presentBuyingOptions();
+        processBuyingOptions();
+    }
+
+    private void presentBuyingOptions(){
+        System.out.println("Type the name of the item you would like to buy, or 'Cancel' to cancel.");
+    }
+
+    private void processBuyingOptions(){
+        String buyingOption = Game.askForUserInput("> ");
+        if (buyingOption.equals("Cancel")){
+            return;
+        }
+        try {
+            Item buyingItem = ItemAdapter.makeItem(buyingOption);
+            int numOfItem;
+            do {
+                numOfItem = getNumOfItems();
+            } while( numOfItem == -1);
+            buyNumOfItem(buyingItem, numOfItem);
+        } catch (ItemAdapterNotAccountedException e) {
+            System.out.println("Item does not exist.");
+        } catch (NotEnoughMoneyException e) {
+            System.out.println("Not enough money.");
+        } catch (NotEnoughItemsException e) {
+            System.out.println("Trader does not have that many items of that type.");
         }
     }
 
-    public static boolean isInteger(String s) {
-        return isInteger(s,10);
+    private void buyNumOfItem(Item buyingItem, int numOfItem) throws NotEnoughMoneyException, NotEnoughItemsException {
+        player.buyItems(buyingItem, numOfItem);
+        trader.sellNumOfItem(buyingItem, numOfItem);
+        System.out.println("Bought " + numOfItem + " " + buyingItem.getName() + " for $" + buyingItem.getWorth() * numOfItem);
     }
 
-    public static boolean isInteger(String s, int radix) {
+    //Selling Methods
+
+    private void sellItems() {
+        presentSellingOptions();
+        processSellingOptions();
+    }
+
+    private void presentSellingOptions(){
+        System.out.println("Type the name of the item you would like to sell, or 'Cancel' to cancel.");
+    }
+
+    private void processSellingOptions(){
+        String sellingOption = Game.askForUserInput("> ");
+        if (sellingOption.equals("Cancel")){
+            return;
+        }
+        try {
+            Item sellingItem = ItemAdapter.makeItem(sellingOption);
+            int numOfItem;
+            do {
+                numOfItem = getNumOfItems();
+            } while( numOfItem == -1);
+            sellNumOfItem(sellingItem, numOfItem);
+        } catch (ItemAdapterNotAccountedException e) {
+            System.out.println("Item does not exist. Try again.");
+        } catch (NotEnoughItemsException e) {
+            System.out.println("Not enough items of that type in inventory.");
+        }
+    }
+
+    private void sellNumOfItem(Item sellingItem, int numOfItem) throws NotEnoughItemsException {
+        player.sellItems(sellingItem, numOfItem);
+    }
+
+    //Get Number of Items methods
+
+    private int getNumOfItems(){
+        System.out.print("How many? ");
+        String numOfItems = Game.askForUserInput("");
+        if (! isInteger(numOfItems) || Integer.parseInt(numOfItems) < 1){
+            System.out.println("Input is not an integer. Try again.");
+            return -1;
+        }
+        return Integer.parseInt(numOfItems);
+    }
+
+    private static boolean isInteger(String s) {
         if(s.isEmpty()) return false;
         for(int i = 0; i < s.length(); i++) {
             if(i == 0 && s.charAt(i) == '-') {
                 if(s.length() == 1) return false;
                 else continue;
             }
-            if(Character.digit(s.charAt(i),radix) < 0) return false;
+            if(Character.digit(s.charAt(i),10) < 0) return false;
         }
         return true;
     }
-
-    private void buyItems(Trader trader) {
-        while (true){
-            System.out.println("Please type the name of the item you would like to buy, or 'Cancel' to cancel.");
-            String input = Game.askForUserInput("> ");
-            if (input.equals("Cancel")){
-                Game.setState(new Trading());
-                return;
-            }
-            else if (trader.getInventory().hasItem(input)){
-                int numToBuy;
-                Item item = ItemAdapter.makeItem(input);
-
-                if (item == null){
-                    throw new NullPointerException("Item should not be null after passing in inventory condition");
-                }
-
-                    numToBuy = getNumberToTrade();
-                    if (numToBuy < 0) {
-                        System.out.println("Amount must be over 0.");
-                        break;
-                    } else if (numToBuy > trader.getInventory().getNumOfItem(item)) {
-                        System.out.println("The trader doesn't have that many items of that type.");
-                        break;
-                    } else {
-                        try {
-                            Game.getPlayer().buyItems(item, numToBuy);
-                            trader.getInventory().useNumOfItem(input, numToBuy);
-                            return;
-                        } catch (NotEnoughMoneyException e) {
-                            System.out.println("Not enough money for that item. ");
-                            break;
-                        }
-                    }
-
-            }
-            else {
-                System.out.println("The trader does not have that item. Please try again.");
-            }
-        }
-
-    }
 }
+
+
 
 

@@ -1,4 +1,4 @@
-package model.items.weapons;
+package model.items;
 
 import model.items.Item;
 

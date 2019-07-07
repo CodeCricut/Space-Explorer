@@ -7,25 +7,23 @@ import model.randomGenerators.NameGenerator;
 import model.randomGenerators.PlanetTypeGenerator;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Planet {
     private String name;
     private PlanetType type;
-
     private double currTemp;
-
     private ArrayList<Element> elements;
 
     public Planet(){
         name = NameGenerator.generateName();
         type = PlanetTypeGenerator.generatePlanetType();
-        Random random = new Random();
         currTemp = ThreadLocalRandom.current().nextDouble(type.getMinTemp(), type.getMaxTemp());
         elements = ElementGenerator.generateCommonElements();
     }
+
+    //Getters
 
     public String getName() {
         return name;

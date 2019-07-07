@@ -13,17 +13,17 @@ public class Ship {
         return currFuel;
     }
 
-    public void depositFuel(int quantity){
-        currFuel += quantity;
-    }
-
     public boolean canTakeOff(){
         return currFuel >= fuelUsedOnTakeoff;
+    }
+
+    //Modifiers
+
+    public void depositFuel(int quantity){
+        currFuel += quantity;
     }
 
     public void takeOff(){
         currFuel -= fuelUsedOnTakeoff;
     }
-
-
 }

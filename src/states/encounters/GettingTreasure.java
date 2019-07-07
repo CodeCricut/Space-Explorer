@@ -12,13 +12,19 @@ public class GettingTreasure extends State {
     @Override
     public void advance() {
         Delimiter.printCharDelimiter('$');
+
+        retrieveTreasure();
+        Game.setState(new PlanetIdling());
+
+        Delimiter.printCharDelimiter('$');
+        TimeDelayer.delaySeconds();
+    }
+
+    private void retrieveTreasure() {
         System.out.println("You found treasure!");
         Item treasure = ItemGenerator.generateItem();
         System.out.println("It is a " + treasure.getName() + ".");
         System.out.println("Adding item to inventory...");
         Game.getPlayer().getInventory().addItems(treasure, 1);
-        Game.setState(new PlanetIdling());
-        Delimiter.printCharDelimiter('$');
-        TimeDelayer.delaySeconds();
     }
 }

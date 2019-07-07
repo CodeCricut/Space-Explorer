@@ -1,5 +1,7 @@
 package model.people;
 
+import exceptions.NotEnoughItemsException;
+import exceptions.NotEnoughMoneyException;
 import model.Inventory;
 import model.items.Item;
 import model.randomGenerators.ItemGenerator;
@@ -12,12 +14,20 @@ public class Trader extends Person{
     public Trader(){
         inventory = new Inventory();
         ArrayList<Item> inventoryItems = ItemGenerator.generateMultipleItems();
-        for (int i = 0; i < inventoryItems.size(); i++){
-            inventory.addItems(inventoryItems.get(i), 1);
+        for (Item inventoryItem : inventoryItems) {
+            inventory.addItems(inventoryItem, 1);
         }
     }
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public void sellNumOfItem(Item item, int numToSell) throws NotEnoughItemsException {
+        int numOfItemInInventory = inventory.getNumOfItem(item);
+        if (numToSell > numOfItemInInventory){
+            throw new NotEnoughItemsException();
+        }
+        inventory.useNumOfItem(item, numToSell);
     }
 }

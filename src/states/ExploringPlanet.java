@@ -3,6 +3,7 @@ package states;
 import model.utilities.Delimiter;
 import model.utilities.TimeDelayer;
 import states.encounters.*;
+import states.encounters.Trading;
 import ui.Game;
 
 import java.util.Random;

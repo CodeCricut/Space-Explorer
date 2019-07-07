@@ -1,5 +1,6 @@
 package states;
 
+import model.items.FuelCartridge;
 import model.utilities.Delimiter;
 import model.utilities.TimeDelayer;
 import ui.Game;
@@ -10,7 +11,7 @@ public class PlayerByShip extends State {
         Delimiter.printCharDelimiter('>');
         System.out.println("You are now at your ship...");
         System.out.println("Depositing fuel-cartridges...");
-        int fuelInIventory = Game.getPlayer().getInventory().useAllOfItem("Fuel Cartridge");
+        int fuelInIventory = Game.getPlayer().getInventory().useAllOfItem(new FuelCartridge());
         Game.getShip().depositFuel(fuelInIventory);
         TimeDelayer.delaySeconds();
         if (! Game.getShip().canTakeOff()){

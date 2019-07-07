@@ -12,20 +12,35 @@ public class ExtractingElements extends State {
     @Override
     public void advance() {
         Delimiter.printCharDelimiter('*');
+
         Element elementType = ElementGenerator.generateOneCommonElement();
+        presentOptions(elementType);
+        processUserOption(elementType);
+
+        Delimiter.printCharDelimiter('*');
+    }
+
+    //User Option Methods
+
+    private void presentOptions(Element elementType) {
         System.out.println("You found an deposit of " + elementType.getName() + ", worth " + elementType.getWorth() + ".");
         System.out.println("Do you wish to mine it?");
         System.out.println("1. Mine the deposit.");
         System.out.println("2. Continue exploring");
+    }
 
+    private void processUserOption(Element elementType) {
         String input = Game.askForUserInput("> ");
-
         switch (input){
             case "1":
                 mineDeposit(elementType);
+                Game.setState(new PlanetIdling());
+                return;
+            case "2":
+                Game.setState(new PlanetIdling());
+                return;
         }
-        Game.setState(new PlanetIdling());
-        Delimiter.printCharDelimiter('*');
+        presentOptions(elementType);
     }
 
     private void mineDeposit(Element element) {

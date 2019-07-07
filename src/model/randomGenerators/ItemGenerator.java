@@ -2,42 +2,30 @@ package model.randomGenerators;
 
 import model.elements.*;
 import model.items.*;
+import ui.Game;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class ItemGenerator {
-    private static ArrayList<Item> universeItems = new ArrayList<>();
+
+    private static ArrayList<Item> universeItemsArray = Game.getUniverseItems();
 
     public static Item generateItem(){
-        if (universeItems.isEmpty()){
-            addUniverseItems();
-        }
         Random rand = new Random();
-        return universeItems.get(rand.nextInt(universeItems.size()));
+        return universeItemsArray.get(rand.nextInt(universeItemsArray.size()));
     }
 
     public static ArrayList<Item> generateMultipleItems(){
         ArrayList<Item> items = new ArrayList<>();
-        if (universeItems.isEmpty()){
-            addUniverseItems();
-        }
 
         Random random = new Random();
-        int numOfItems = random.nextInt(universeItems.size());
+        int numOfItems = random.nextInt(universeItemsArray.size());
         for (int i = 0; i < numOfItems; i++){
             items.add(generateItem());
         }
         return items;
     }
-
-
-    public static void addUniverseItems(){
-        universeItems.add(new MoonRover());
-        universeItems.add(new QuantumFizz());
-        universeItems.add(new StarCommunicator());
-        universeItems.add(new FuelCartridge());
-    }
-
 }

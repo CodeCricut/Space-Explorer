@@ -1,9 +1,10 @@
 package model.people;
 
+import exceptions.NotEnoughItemsException;
 import exceptions.NotEnoughMoneyException;
 import model.Inventory;
 import model.items.Item;
-import model.items.weapons.Weapon;
+import model.items.Weapon;
 
 public class Player extends Person{
     private float maxHealth;
@@ -20,14 +21,7 @@ public class Player extends Person{
         weapon = new Weapon(75);
     }
 
-    public void buyItems(Item item, int numToBuy) throws NotEnoughMoneyException {
-        if (item.getWorth()* numToBuy > money){
-            throw new NotEnoughMoneyException();
-        }
-        money -= item.getWorth() * numToBuy;
-        inventory.addItems(item, numToBuy);
-        System.out.println(numToBuy + " " + item.getName() + "(s) added to inventory.");
-    }
+    //Getters and Setters
 
     public float getMaxHealth() {
         return maxHealth;
@@ -53,6 +47,8 @@ public class Player extends Person{
         this.currHealth = currHealth;
     }
 
+    //Public Methods
+
     public void fightEnemy(Enemy enemy){
         double enemyDamage = enemy.getWeapon().getDamage();
         if (currHealth < enemyDamage){
@@ -64,14 +60,39 @@ public class Player extends Person{
         enemy.processHit(weapon.getDamage());
     }
 
+    public void buyItems(Item item, int numToBuy) throws NotEnoughMoneyException {
+        if (item.getWorth()* numToBuy > money){
+            throw new NotEnoughMoneyException();
+        }
+        money -= item.getWorth() * numToBuy;
+        inventory.addItems(item, numToBuy);
+        System.out.println(numToBuy + " " + item.getName() + "(s) added to inventory.");
+    }
+
+    public void sellItems(Item item, int numToSell) throws NotEnoughItemsException {
+        int numOfItemInInventory = inventory.getNumOfItem(item);
+        if (numOfItemInInventory < numToSell){
+            throw new NotEnoughItemsException();
+        }
+        inventory.useNumOfItem(item, numToSell);
+        depositFunds(item.getWorth() * numToSell);
+    }
+
     public boolean isAlive(){
         return currHealth > 0;
     }
 
+
+    //Money Modifiers
     public void depositFunds(float funds){
         money += funds;
     }
 
-    public void withdrawalFunds(float amount){ money -= amount; }
+    public void withdrawalFunds(float amount) throws NotEnoughMoneyException {
+        if (money < amount){
+            throw new NotEnoughMoneyException();
+        }
+        money -= amount;
+    }
 }
 

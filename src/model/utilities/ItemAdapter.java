@@ -5,7 +5,7 @@ import model.elements.*;
 import model.items.*;
 
 public class ItemAdapter {
-    public static Item makeItem(String itemName){
+    public static Item makeItem(String itemName) throws ItemAdapterNotAccountedException {
         switch (itemName){
             case "Fuel Cartridge":
                 return new FuelCartridge();
@@ -36,12 +36,7 @@ public class ItemAdapter {
             case "Sulfur":
                 return new Sulfur();
             default:
-                try {
-                    throw new ItemAdapterNotAccountedException();
-                } catch (ItemAdapterNotAccountedException e) {
-                    e.printStackTrace();
-                }
-                return null;
+                throw new ItemAdapterNotAccountedException();
         }
     }
 }

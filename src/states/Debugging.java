@@ -1,6 +1,7 @@
 package states;
 
 import states.encounters.*;
+import states.encounters.Trading;
 import ui.Game;
 
 public class Debugging extends State {

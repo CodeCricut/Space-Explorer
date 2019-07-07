@@ -1,7 +1,7 @@
 package model.people;
 
 import model.randomGenerators.NameGenerator;
-import model.items.weapons.Weapon;
+import model.items.Weapon;
 
 import java.util.Random;
 
@@ -18,9 +18,8 @@ public class Enemy extends Person {
         weapon = new Weapon();
     }
 
-    public double getMaxHealth() {
-        return maxHealth;
-    }
+    //Getters
+    public double getMaxHealth() { return maxHealth; }
 
     public double getCurrHealth() {
         return currHealth;
@@ -30,6 +29,7 @@ public class Enemy extends Person {
         return weapon;
     }
 
+    //Public Methods
     public void processHit(double hitDamage) {
         if (currHealth < hitDamage){
             currHealth = 0;
