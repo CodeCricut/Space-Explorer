@@ -5,11 +5,11 @@ import model.people.Player;
 import model.utilities.Delimiter;
 import model.utilities.TimeDelayer;
 import states.ExploringPlanet;
+import states.PlanetIdling;
 import states.State;
 import ui.Game;
 
 public class Healing extends State {
-
     private Player player = Game.getPlayer();
 
     @Override
@@ -17,8 +17,10 @@ public class Healing extends State {
         Delimiter.printCharDelimiter('^');
 
         float moneyRequiredToHeal = player.getMaxHealth() - player.getCurrHealth();
-        presentOptions(moneyRequiredToHeal);
-        processOption(moneyRequiredToHeal);
+        while(Healing.class.equals(Game.getState().getClass())) {
+            presentOptions(moneyRequiredToHeal);
+            processOption(moneyRequiredToHeal);
+        }
 
         Delimiter.printCharDelimiter('^');
     }
@@ -37,10 +39,13 @@ public class Healing extends State {
         switch (input){
             case "1":
                 healPlayer(moneyRequiredToHeal);
+                Game.setState(new PlanetIdling());
                 break;
             case "2":
-                Game.setState(new ExploringPlanet());
+                Game.setState(new PlanetIdling());
                 break;
+            default:
+                System.out.println("Invalid input.");
         }
     }
 

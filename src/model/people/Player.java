@@ -4,7 +4,7 @@ import exceptions.NotEnoughItemsException;
 import exceptions.NotEnoughMoneyException;
 import model.Inventory;
 import model.items.Item;
-import model.items.Weapon;
+import model.Weapon;
 
 public class Player extends Person{
     private float maxHealth;

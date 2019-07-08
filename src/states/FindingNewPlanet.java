@@ -38,14 +38,13 @@ public class FindingNewPlanet extends State {
                 break;
         }
         Delimiter.printCharDelimiter('?');
-        return;
     }
 
     private void ListPlanetProperties(Planet planet) {
         PlanetType type = planet.getType();
         Delimiter.printCharDelimiter('@');
         System.out.println("``  `   \\   Name: " + planet.getName());
-        System.out.println("`  `  @  |  Planet Type: " + type.getName());
+        System.out.println("`  `  @  |  Planet Type: " + type.getType());
         System.out.println(" `   ` ` |  Planet Description: " + type.getDescription());
         System.out.println("  @` `  /   Max Temperature: " + type.getMaxTemp());
         System.out.println("`_`__--`    Min Temperature: " + type.getMinTemp());
@@ -59,9 +58,9 @@ public class FindingNewPlanet extends State {
         System.out.println("Common Elements: ");
 
         ArrayList<Element> planetElements = planet.getElements();
-        for(int i = 0; i < planetElements.size(); i++){
+        for (Element planetElement : planetElements) {
             System.out.print("\t");
-            System.out.println(planetElements.get(i).getName() + " | $" + planetElements.get(i).getWorth());
+            System.out.println(planetElement.getName() + " | $" + planetElement.getWorth());
         }
     }
 }

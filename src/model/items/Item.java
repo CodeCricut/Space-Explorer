@@ -5,7 +5,7 @@ import ui.Game;
 
 import java.util.Set;
 
-public abstract class Item implements Cloneable {
+public class Item {
     protected String name;
     private float worth;
 

@@ -7,7 +7,6 @@ import model.randomGenerators.NameGenerator;
 import model.randomGenerators.PlanetTypeGenerator;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Planet {
@@ -20,7 +19,7 @@ public class Planet {
         name = NameGenerator.generateName();
         type = PlanetTypeGenerator.generatePlanetType();
         currTemp = ThreadLocalRandom.current().nextDouble(type.getMinTemp(), type.getMaxTemp());
-        elements = ElementGenerator.generateCommonElements();
+        elements = ElementGenerator.generateMultipleElements();
     }
 
     //Getters

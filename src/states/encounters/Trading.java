@@ -1,14 +1,13 @@
 package states.encounters;
 
-import exceptions.ItemAdapterNotAccountedException;
+import exceptions.ItemDoesNotExist;
 import exceptions.NotEnoughItemsException;
 import exceptions.NotEnoughMoneyException;
-import model.Planet;
 import model.items.Item;
 import model.people.Player;
 import model.people.Trader;
+import model.randomGenerators.ItemGenerator;
 import model.utilities.Delimiter;
-import model.utilities.ItemAdapter;
 import model.utilities.TimeDelayer;
 import states.PlanetIdling;
 import states.State;
@@ -91,13 +90,13 @@ public class Trading extends State {
             return;
         }
         try {
-            Item buyingItem = ItemAdapter.makeItem(buyingOption);
+            Item buyingItem = ItemGenerator.convertItemNameToItem(buyingOption);
             int numOfItem;
             do {
                 numOfItem = getNumOfItems();
             } while( numOfItem == -1);
             buyNumOfItem(buyingItem, numOfItem);
-        } catch (ItemAdapterNotAccountedException e) {
+        } catch (ItemDoesNotExist e) {
             System.out.println("Item does not exist.");
         } catch (NotEnoughMoneyException e) {
             System.out.println("Not enough money.");
@@ -129,13 +128,13 @@ public class Trading extends State {
             return;
         }
         try {
-            Item sellingItem = ItemAdapter.makeItem(sellingOption);
+            Item sellingItem = ItemGenerator.convertItemNameToItem(sellingOption);
             int numOfItem;
             do {
                 numOfItem = getNumOfItems();
             } while( numOfItem == -1);
             sellNumOfItem(sellingItem, numOfItem);
-        } catch (ItemAdapterNotAccountedException e) {
+        } catch (ItemDoesNotExist e) {
             System.out.println("Item does not exist. Try again.");
         } catch (NotEnoughItemsException e) {
             System.out.println("Not enough items of that type in inventory.");

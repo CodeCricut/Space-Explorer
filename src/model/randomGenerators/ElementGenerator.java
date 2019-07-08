@@ -1,34 +1,39 @@
 package model.randomGenerators;
 
+import exceptions.ItemDoesNotExist;
 import model.elements.*;
+import model.items.Item;
+import model.items.ItemEnum;
 import ui.Game;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 
 public class ElementGenerator {
 
-    private static ArrayList<Element> elements = Game.getUniverseElements();
+    private static final List<ElementEnum> VALUES = ElementEnum.getValues();
+    private static final int SIZE = VALUES.size();
 
-    public static ArrayList<Element> generateCommonElements(){
-        Random rand = new Random();
+    private static final Random RANDOM = new Random();
 
-        ArrayList<Element> commonElements = new ArrayList<>();
-        int numOfCommonElements = rand.nextInt(10) + 1;
-        for (int i = 0; i < numOfCommonElements; i++){
-            int elementInd = rand.nextInt(elements.size());
-            if (! commonElements.contains(elements.get(elementInd))){
-                commonElements.add(elements.get(elementInd));
-            }
-        }
-        return commonElements;
+    public static Element generateElement() {
+        return ElementEnum.convertElementEnumToElement(VALUES.get(RANDOM.nextInt(SIZE)));
     }
 
-    public static Element generateOneCommonElement(){
-        ArrayList<Element> elementsOnPlanet = Game.getPlanet().getElements();
-        Random rand = new Random();
-        int randElementInd = rand.nextInt(elementsOnPlanet.size());
-        return elementsOnPlanet.get(randElementInd);
+    public static Element convertElementNameToItem(String elementName) throws ItemDoesNotExist {
+        ElementEnum elementEnum = ElementEnum.convertElementNameToEnum(elementName);
+        return ElementEnum.convertElementEnumToElement(elementEnum);
+    }
+
+    public static ArrayList<Element> generateMultipleElements(){
+        ArrayList<Element> elements = new ArrayList<>();
+        Random random = new Random();
+        int numOfItems = random.nextInt(SIZE) + 1;
+        for (int i = 0; i < numOfItems ; i++){
+            elements.add(generateElement());
+        }
+        return elements;
     }
 }

@@ -13,7 +13,7 @@ public class ExtractingElements extends State {
     public void advance() {
         Delimiter.printCharDelimiter('*');
 
-        Element elementType = ElementGenerator.generateOneCommonElement();
+        Element elementType = ElementGenerator.generateElement();
         presentOptions(elementType);
         processUserOption(elementType);
 
@@ -23,7 +23,10 @@ public class ExtractingElements extends State {
     //User Option Methods
 
     private void presentOptions(Element elementType) {
-        System.out.println("You found an deposit of " + elementType.getName() + ", worth " + elementType.getWorth() + ".");
+        System.out.println("You found an element deposit.");
+        System.out.println("Type: " + elementType.getName() +
+                " | Atomic Num: " + elementType.getAtomicNumber() +
+                " | Worth: " + elementType.getWorth());
         System.out.println("Do you wish to mine it?");
         System.out.println("1. Mine the deposit.");
         System.out.println("2. Continue exploring");

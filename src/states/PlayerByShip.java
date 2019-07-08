@@ -1,6 +1,6 @@
 package states;
 
-import model.items.FuelCartridge;
+import model.items.ItemEnum;
 import model.utilities.Delimiter;
 import model.utilities.TimeDelayer;
 import ui.Game;
@@ -11,8 +11,8 @@ public class PlayerByShip extends State {
         Delimiter.printCharDelimiter('>');
         System.out.println("You are now at your ship...");
         System.out.println("Depositing fuel-cartridges...");
-        int fuelInIventory = Game.getPlayer().getInventory().useAllOfItem(new FuelCartridge());
-        Game.getShip().depositFuel(fuelInIventory);
+        int fuelInInventory = Game.getPlayer().getInventory().useAllOfItem(ItemEnum.convertItemEnumToItem(ItemEnum.FUEL_CARTRIDGE));
+        Game.getShip().depositFuel(fuelInInventory);
         TimeDelayer.delaySeconds();
         if (! Game.getShip().canTakeOff()){
             System.out.println("Your ship does not have enough fuel to takeoff.");

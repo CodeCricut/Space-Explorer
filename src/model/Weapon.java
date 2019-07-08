@@ -1,14 +1,11 @@
-package model.items;
-
-import model.items.Item;
+package model;
 
 import java.util.Random;
 
-public class Weapon extends Item {
+public class Weapon {
     private double damage;
 
     public Weapon(double damage){
-        super("Weapon", 50);
         this.damage = damage;
     }
     public Weapon(){

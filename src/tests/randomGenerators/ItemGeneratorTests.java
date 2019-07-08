@@ -1,13 +1,13 @@
 package tests.randomGenerators;
 
+import exceptions.ItemDoesNotExist;
 import model.items.Item;
 import model.randomGenerators.ItemGenerator;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ItemGeneratorTests {
 
@@ -25,5 +25,17 @@ class ItemGeneratorTests {
             ArrayList<Item> items = ItemGenerator.generateMultipleItems();
             assertNotNull(items);
         }
+    }
+
+    @Test
+    void testConvertItemNameToItemShouldNotThrowException() throws ItemDoesNotExist {
+        String itemName = "Moon Rover";
+        Item moonRover = ItemGenerator.convertItemNameToItem(itemName);
+    }
+
+    @Test
+    void testConvertItemNameToItemShouldThrowException(){
+        String itemName = "Invalid Item";
+        assertThrows(ItemDoesNotExist.class, () -> ItemGenerator.convertItemNameToItem(itemName));
     }
 }

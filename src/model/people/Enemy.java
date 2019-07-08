@@ -1,7 +1,7 @@
 package model.people;
 
+import model.Weapon;
 import model.randomGenerators.NameGenerator;
-import model.items.Weapon;
 
 import java.util.Random;
 

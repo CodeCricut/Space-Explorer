@@ -1,7 +1,6 @@
 package model.people;
 
 import exceptions.NotEnoughItemsException;
-import exceptions.NotEnoughMoneyException;
 import model.Inventory;
 import model.items.Item;
 import model.randomGenerators.ItemGenerator;

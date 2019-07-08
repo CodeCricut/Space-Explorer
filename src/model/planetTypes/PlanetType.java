@@ -1,11 +1,18 @@
 package model.planetTypes;
 
-public abstract class PlanetType {
-    protected String name;
-    protected String description;
+public class PlanetType {
+    private String type;
+    private String description;
 
-    protected double minTemp;
-    protected double maxTemp;
+    private double maxTemp;
+    private double minTemp;
+
+    PlanetType(String type, String description, double minTemp, double maxTemp){
+        this.type = type;
+        this.description = description;
+        this.minTemp = minTemp;
+        this.maxTemp = maxTemp;
+    }
 
     public double getMinTemp() {
         return minTemp;
@@ -15,8 +22,8 @@ public abstract class PlanetType {
         return maxTemp;
     }
 
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
     public String getDescription() {
