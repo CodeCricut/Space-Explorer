@@ -143,6 +143,8 @@ public class Trading extends State {
 
     private void sellNumOfItem(Item sellingItem, int numOfItem) throws NotEnoughItemsException {
         player.sellItems(sellingItem, numOfItem);
+        trader.getInventory().addItems(sellingItem, numOfItem);
+        System.out.println("Sold " + numOfItem + " " + sellingItem.getName() + "(s) for " + sellingItem.getWorth() * numOfItem);
     }
 
     //Get Number of Items methods
