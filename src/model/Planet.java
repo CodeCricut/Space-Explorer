@@ -1,25 +1,26 @@
 package model;
 
-import model.elements.Element;
+import model.items.elements.Element;
 import model.planetTypes.PlanetType;
-import model.randomGenerators.ElementGenerator;
-import model.randomGenerators.NameGenerator;
-import model.randomGenerators.PlanetTypeGenerator;
+import model.factories.ElementFactory;
+import model.factories.NameFactory;
+import model.factories.PlanetTypeFactory;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Planet {
     private String name;
     private PlanetType type;
     private double currTemp;
-    private ArrayList<Element> elements;
+    private HashSet<Element> elements;
 
     public Planet(){
-        name = NameGenerator.generateName();
-        type = PlanetTypeGenerator.generatePlanetType();
+        name = NameFactory.generateName();
+        type = PlanetTypeFactory.generatePlanetType();
         currTemp = ThreadLocalRandom.current().nextDouble(type.getMinTemp(), type.getMaxTemp());
-        elements = ElementGenerator.generateMultipleElements();
+        elements = ElementFactory.generateMultipleElements();
     }
 
     //Getters
@@ -36,7 +37,7 @@ public class Planet {
         return currTemp;
     }
 
-    public ArrayList<Element> getElements() {
+    public HashSet<Element> getElements() {
         return elements;
     }
 }

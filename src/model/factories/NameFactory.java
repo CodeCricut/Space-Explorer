@@ -1,8 +1,8 @@
-package model.randomGenerators;
+package model.factories;
 
 import java.util.Random;
 
-public class NameGenerator {
+public class NameFactory {
 
     private static String[] Beginning = {"Kr", "Ca", "Ra", "Mrok", "Cru",
             "Ray", "Bre", "Zed", "Drak", "Mor", "Jag", "Mer", "Jar", "Mjol",

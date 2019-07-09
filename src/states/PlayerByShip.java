@@ -1,6 +1,10 @@
 package states;
 
-import model.items.ItemEnum;
+import exceptions.ItemDoesNotExist;
+import model.Inventory;
+import model.factories.ItemFactory;
+import model.items.Item;
+import model.items.treasures.TreasureEnum;
 import model.utilities.Delimiter;
 import model.utilities.TimeDelayer;
 import ui.Game;
@@ -11,7 +15,15 @@ public class PlayerByShip extends State {
         Delimiter.printCharDelimiter('>');
         System.out.println("You are now at your ship...");
         System.out.println("Depositing fuel-cartridges...");
-        int fuelInInventory = Game.getPlayer().getInventory().useAllOfItem(ItemEnum.convertItemEnumToItem(ItemEnum.FUEL_CARTRIDGE));
+        Inventory inventory = Game.getPlayer().getInventory();
+        Item fuelCartridge;
+        try {
+            fuelCartridge = ItemFactory.convertItemNameToItem("Fuel Cartridge");
+        } catch (ItemDoesNotExist itemDoesNotExist) {
+            itemDoesNotExist.printStackTrace();
+            return;
+        }
+        int fuelInInventory = inventory.useAllOfItem(fuelCartridge);
         Game.getShip().depositFuel(fuelInInventory);
         TimeDelayer.delaySeconds();
         if (! Game.getShip().canTakeOff()){

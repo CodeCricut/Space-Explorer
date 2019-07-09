@@ -1,7 +1,7 @@
 package model.people;
 
 import model.Weapon;
-import model.randomGenerators.NameGenerator;
+import model.factories.NameFactory;
 
 import java.util.Random;
 
@@ -11,7 +11,7 @@ public class Enemy extends Person {
     private Weapon weapon;
 
     public Enemy(){
-        name = NameGenerator.generateName();
+        name = NameFactory.generateName();
         Random random = new Random();
         maxHealth = random.nextInt(200);
         currHealth = maxHealth;

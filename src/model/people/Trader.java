@@ -2,8 +2,9 @@ package model.people;
 
 import exceptions.NotEnoughItemsException;
 import model.Inventory;
+import model.factories.ItemFactory;
 import model.items.Item;
-import model.randomGenerators.ItemGenerator;
+import model.factories.TreasureFactory;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ public class Trader extends Person{
 
     public Trader(){
         inventory = new Inventory();
-        ArrayList<Item> inventoryItems = ItemGenerator.generateMultipleItems();
+        ArrayList<Item> inventoryItems = ItemFactory.generateMultipleItems();
         for (Item inventoryItem : inventoryItems) {
             inventory.addItems(inventoryItem, 1);
         }

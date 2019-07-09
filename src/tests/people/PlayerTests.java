@@ -1,8 +1,10 @@
 package tests.people;
 
+import exceptions.ItemDoesNotExist;
 import exceptions.NotEnoughMoneyException;
+import model.factories.ItemFactory;
 import model.items.Item;
-import model.items.ItemEnum;
+import model.items.treasures.TreasureEnum;
 import model.people.Enemy;
 import model.people.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,13 +57,13 @@ class PlayerTests {
     }
 
     @Test
-    void testBuyItemsValidFunds() throws NotEnoughMoneyException {
+    void testBuyItemsValidFunds() throws NotEnoughMoneyException, ItemDoesNotExist {
         int funds = 10000;
         player.depositFunds(funds);
         assertEquals(funds, player.getMoney());
 
 
-        Item moonRover = ItemEnum.convertItemEnumToItem(ItemEnum.MOON_ROVER);
+        Item moonRover = ItemFactory.convertItemNameToItem("Moon Rover");
         player.buyItems(moonRover, 1);
 
         assertEquals(1, player.getInventory().getNumOfItem(moonRover));
@@ -76,10 +78,10 @@ class PlayerTests {
     }
 
     @Test
-    void testBuyItemsInvalidFunds() throws NotEnoughMoneyException {
+    void testBuyItemsInvalidFunds() throws NotEnoughMoneyException, ItemDoesNotExist {
         assertEquals(0, player.getMoney());
 
-        Item moonRover = ItemEnum.convertItemEnumToItem(ItemEnum.MOON_ROVER);
+        Item moonRover = ItemFactory.convertItemNameToItem("Moon Rover");
 
         player.buyItems(moonRover, 0);
 

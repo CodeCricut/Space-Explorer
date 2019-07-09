@@ -1,13 +1,14 @@
 package states;
 
 import model.Planet;
-import model.elements.Element;
+import model.items.elements.Element;
 import model.planetTypes.PlanetType;
 import model.utilities.Delimiter;
 import model.utilities.TimeDelayer;
 import ui.Game;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class FindingNewPlanet extends State {
     @Override
@@ -57,7 +58,7 @@ public class FindingNewPlanet extends State {
     private void PrintPlanetElements(Planet planet) {
         System.out.println("Common Elements: ");
 
-        ArrayList<Element> planetElements = planet.getElements();
+        HashSet<Element> planetElements = planet.getElements();
         for (Element planetElement : planetElements) {
             System.out.print("\t");
             System.out.println(planetElement.getName() + " | $" + planetElement.getWorth());

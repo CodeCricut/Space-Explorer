@@ -2,8 +2,8 @@ package states.encounters;
 
 import model.utilities.Delimiter;
 import model.utilities.TimeDelayer;
-import model.elements.Element;
-import model.randomGenerators.ElementGenerator;
+import model.items.elements.Element;
+import model.factories.ElementFactory;
 import states.PlanetIdling;
 import states.State;
 import ui.Game;
@@ -13,7 +13,7 @@ public class ExtractingElements extends State {
     public void advance() {
         Delimiter.printCharDelimiter('*');
 
-        Element elementType = ElementGenerator.generateElement();
+        Element elementType = ElementFactory.generateElement();
         presentOptions(elementType);
         processUserOption(elementType);
 

@@ -1,7 +1,5 @@
 package model.planetTypes;
 
-import model.items.ItemEnum;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -22,31 +20,14 @@ public enum PlanetTypeEnum {
 
     //PlanetType Fields, Constructor, and Getters
 
-    private String type;
-    private String description;
-    private double minTemp, maxTemp;
+    private PlanetType planetType;
 
     PlanetTypeEnum(String type, String description, double minTemp, double maxTemp){
-        this.type = type;
-        this.description = description;
-        this.minTemp = minTemp;
-        this.maxTemp = maxTemp;
+        planetType = new PlanetType(type, description, minTemp, maxTemp);
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public double getMinTemp() {
-        return minTemp;
-    }
-
-    public double getMaxTemp() {
-        return maxTemp;
+    public PlanetType getPlanetType() {
+        return planetType;
     }
 
     //PlanetTypeEnum Static Fields and Getters
@@ -56,15 +37,5 @@ public enum PlanetTypeEnum {
 
     public static List<PlanetTypeEnum> getValues(){
         return VALUES;
-    }
-
-    //Converters
-
-    public static PlanetType convertPlanetTypeEnumToPlanet(PlanetTypeEnum planetTypeEnum){
-        String type = planetTypeEnum.getType();
-        String description = planetTypeEnum.getDescription();
-        double minTemp = planetTypeEnum.getMinTemp();
-        double maxTemp = planetTypeEnum.getMaxTemp();
-        return new PlanetType(type, description, minTemp, maxTemp);
     }
 }

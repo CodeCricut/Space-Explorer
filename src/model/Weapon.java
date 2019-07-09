@@ -15,4 +15,8 @@ public class Weapon {
     public double getDamage() {
         return damage;
     }
+
+    public void increaseDamage(float increaseBy){
+        damage += increaseBy;
+    }
 }

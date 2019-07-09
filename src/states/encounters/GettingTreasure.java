@@ -1,6 +1,6 @@
 package states.encounters;
 
-import model.randomGenerators.ItemGenerator;
+import model.factories.TreasureFactory;
 import model.utilities.Delimiter;
 import model.utilities.TimeDelayer;
 import model.items.Item;
@@ -22,7 +22,7 @@ public class GettingTreasure extends State {
 
     private void retrieveTreasure() {
         System.out.println("You found treasure!");
-        Item treasure = ItemGenerator.generateItem();
+        Item treasure = TreasureFactory.generateTreasure();
         System.out.println("It is a " + treasure.getName() + ".");
         System.out.println("Adding item to inventory...");
         Game.getPlayer().getInventory().addItems(treasure, 1);

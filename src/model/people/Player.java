@@ -60,6 +60,14 @@ public class Player extends Person{
         enemy.processHit(weapon.getDamage());
     }
 
+    public void restoreHealth(double healthToRestore){
+        if (healthToRestore > maxHealth - currHealth){
+            currHealth = maxHealth;
+            return;
+        }
+        currHealth += healthToRestore;
+    }
+
     public void buyItems(Item item, int numToBuy) throws NotEnoughMoneyException {
         if (item.getWorth()* numToBuy > money){
             throw new NotEnoughMoneyException();

@@ -2,15 +2,11 @@ package ui;
 
 import model.Planet;
 import model.Ship;
-import model.elements.*;
-import model.items.*;
 import model.people.Player;
 import model.utilities.Delimiter;
 import states.Debugging;
-import states.StartingGame;
 import states.State;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
@@ -24,7 +20,7 @@ public class Game {
     public static void initializeGame(){
         player = new Player();
         ship = new Ship();
-        state = new StartingGame();
+        state = new Debugging();
         planet = new Planet();
     }
 

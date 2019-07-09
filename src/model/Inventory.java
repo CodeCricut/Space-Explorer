@@ -1,6 +1,7 @@
 package model;
 
 import model.items.Item;
+import model.items.consumables.Consumable;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -68,6 +69,21 @@ public class Inventory {
         }
     }
 
+    public void listConsumables(){
+        boolean consumablePresent = false;
+        for (Map.Entry<Item, Integer> entry : items.entrySet()){
+            Item item = entry.getKey();
+            if (item instanceof Consumable){
+                System.out.println("\t" + item.getName() + " | Quantity: " + entry.getValue() + " | Value: $" + item.getWorth());
+                System.out.println("\t\tDescription: " + ((Consumable) item).getDescription());
+                consumablePresent = true;
+            }
+        }
+        if (! consumablePresent){
+            System.out.println("\tNo consumables in inventory");
+        }
+    }
+
     public boolean hasItem(Item item){
         for (Item invItem : items.keySet()){
             if (item.getName().equals(invItem.getName()))
@@ -75,4 +91,5 @@ public class Inventory {
         }
         return false;
     }
+
 }

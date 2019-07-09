@@ -1,8 +1,9 @@
 package tests;
 
+import exceptions.ItemDoesNotExist;
 import model.Inventory;
+import model.factories.ItemFactory;
 import model.items.Item;
-import model.items.ItemEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,8 +19,8 @@ class InventoryTests {
     }
 
     @Test
-    void testAddItemGetItemHasItem(){
-        Item moonRover = ItemEnum.convertItemEnumToItem(ItemEnum.MOON_ROVER);
+    void testAddItemGetItemHasItem() throws ItemDoesNotExist {
+        Item moonRover = ItemFactory.convertItemNameToItem("Moon Rover");
         assertFalse(inventory.hasItem(moonRover));
         inventory.addItems(moonRover, 1);
         assertTrue(inventory.hasItem(moonRover));
@@ -27,29 +28,30 @@ class InventoryTests {
     }
 
     @Test
-    void testListItems(){
+    void testListItems() throws ItemDoesNotExist {
         inventory.listItems();
         populateInventory();
         inventory.listItems();
     }
 
     @Test
-    void testUseAllAndNumItems(){
+    void testUseAllAndNumItems() throws ItemDoesNotExist {
         populateInventory();
-        int numOfMoonRover = inventory.getNumOfItem(ItemEnum.convertItemEnumToItem(ItemEnum.MOON_ROVER));
-        Item moonRover = ItemEnum.convertItemEnumToItem(ItemEnum.MOON_ROVER);
+        Item moonRover = ItemFactory.convertItemNameToItem("Moon Rover");
+        int numOfMoonRover = inventory.getNumOfItem(moonRover);
         inventory.useNumOfItem(moonRover, 1);
-        assertEquals(numOfMoonRover - 1, inventory.getNumOfItem(ItemEnum.convertItemEnumToItem(ItemEnum.MOON_ROVER)));
-        inventory.useAllOfItem(ItemEnum.convertItemEnumToItem(ItemEnum.MOON_ROVER));
-        assertFalse(inventory.hasItem(ItemEnum.convertItemEnumToItem(ItemEnum.MOON_ROVER)));
+        assertEquals(numOfMoonRover - 1, inventory.getNumOfItem(moonRover));
+        inventory.useAllOfItem(moonRover);
+        assertFalse(inventory.hasItem(moonRover));
 
     }
 
-    private void populateInventory() {
-        inventory.addItems(ItemEnum.convertItemEnumToItem(ItemEnum.MOON_ROVER), 1);
-        inventory.addItems(ItemEnum.convertItemEnumToItem(ItemEnum.MOON_ROVER), 1);
-        inventory.addItems(ItemEnum.convertItemEnumToItem(ItemEnum.MOON_ROVER), 1);
-        inventory.addItems(ItemEnum.convertItemEnumToItem(ItemEnum.MOON_ROVER), 1);
+    private void populateInventory() throws ItemDoesNotExist {
+        Item moonRover = ItemFactory.convertItemNameToItem("Moon Rover");
+        inventory.addItems(moonRover, 1);
+        inventory.addItems(moonRover, 1);
+        inventory.addItems(moonRover, 1);
+        inventory.addItems(moonRover, 1);
     }
 
 

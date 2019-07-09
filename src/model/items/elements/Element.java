@@ -1,4 +1,4 @@
-package model.elements;
+package model.items.elements;
 
 import model.items.Item;
 

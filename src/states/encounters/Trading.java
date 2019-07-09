@@ -3,10 +3,11 @@ package states.encounters;
 import exceptions.ItemDoesNotExist;
 import exceptions.NotEnoughItemsException;
 import exceptions.NotEnoughMoneyException;
+import model.factories.ItemFactory;
 import model.items.Item;
 import model.people.Player;
 import model.people.Trader;
-import model.randomGenerators.ItemGenerator;
+import model.factories.TreasureFactory;
 import model.utilities.Delimiter;
 import model.utilities.TimeDelayer;
 import states.PlanetIdling;
@@ -90,7 +91,7 @@ public class Trading extends State {
             return;
         }
         try {
-            Item buyingItem = ItemGenerator.convertItemNameToItem(buyingOption);
+            Item buyingItem = ItemFactory.convertItemNameToItem(buyingOption);
             int numOfItem;
             do {
                 numOfItem = getNumOfItems();
@@ -128,7 +129,7 @@ public class Trading extends State {
             return;
         }
         try {
-            Item sellingItem = ItemGenerator.convertItemNameToItem(sellingOption);
+            Item sellingItem = ItemFactory.convertItemNameToItem(sellingOption);
             int numOfItem;
             do {
                 numOfItem = getNumOfItems();
