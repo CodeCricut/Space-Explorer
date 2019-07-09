@@ -1,8 +1,4 @@
 package model.items.treasures;
-
-import exceptions.ItemDoesNotExist;
-import model.items.Item;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -33,18 +29,4 @@ public enum TreasureEnum {
     public static List<TreasureEnum> getValues(){
         return VALUES;
     }
-
-//    //Converters
-//
-//    public static TreasureEnum convertTreasureNameToTreasure(String itemName) throws ItemDoesNotExist {
-//        for (TreasureEnum treasureEnum : TreasureEnum.VALUES){
-//            if (treasureEnum.getName().equals(itemName))
-//                return treasureEnum;
-//        }
-//        throw new ItemDoesNotExist();
-//    }
-//
-//    public static Item convertItemEnumToItem(TreasureEnum treasureEnum){
-//        return new Item(treasureEnum.getName(), treasureEnum.getWorth());
-//    }
 }

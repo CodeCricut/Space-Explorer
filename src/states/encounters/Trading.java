@@ -79,6 +79,8 @@ public class Trading extends State {
     private void buyItems() {
         presentBuyingOptions();
         processBuyingOptions();
+        TimeDelayer.delaySeconds();
+        Delimiter.printEmptyConsole();
     }
 
     private void presentBuyingOptions(){
@@ -117,6 +119,8 @@ public class Trading extends State {
     private void sellItems() {
         presentSellingOptions();
         processSellingOptions();
+        TimeDelayer.delaySeconds();
+        Delimiter.printEmptyConsole();
     }
 
     private void presentSellingOptions(){

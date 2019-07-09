@@ -1,7 +1,4 @@
 package model.items.elements;
-
-import exceptions.ItemDoesNotExist;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -39,18 +36,4 @@ public enum ElementEnum {
     public static List<ElementEnum> getValues(){
         return VALUES;
     }
-
-//    //Converters
-//
-//    public static ElementEnum convertElementNameToEnum(String itemName) throws ItemDoesNotExist {
-//        for (ElementEnum elementEnum : ElementEnum.VALUES){
-//            if (elementEnum.getName().equals(itemName))
-//                return elementEnum;
-//        }
-//        throw new ItemDoesNotExist();
-//    }
-//
-//    public static Element convertElementEnumToElement(ElementEnum elementEnum){
-//        return new Element(elementEnum.getName(), elementEnum.getWorth(), elementEnum.getAtomicNum());
-//    }
 }
